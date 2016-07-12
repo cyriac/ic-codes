@@ -1,0 +1,10 @@
+#### joe made this: http://goel.io/joe
+
+#####=== Python ===#####
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+data/industry-codes.json
