@@ -22,8 +22,12 @@ python server.py
 ```
 
 This will fetch the dataset first time you run the server.
-If you want to reload the dataset, just delete the file 
-```./data/industry-codes.json``` and re-run the server.
+If you want to reload the dataset, start the server with ```--reload```
+parameter
+
+```
+python server.py --reload
+```
 
 ## Changing download location
 

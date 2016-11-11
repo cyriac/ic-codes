@@ -1,3 +1,4 @@
+import argparse
 import cherrypy
 import json
 import os
@@ -8,11 +9,19 @@ location = "./data/"
 filename = "industry-codes.json"
 path = os.path.join(location, filename)
 
-if not os.path.isfile(path):
-    write_codes(get_codes(), location)
+data = {}
+reload_on_start = False
+def reload_data(check_if_exists=True):
+    global data
+    global reload_on_start
+    if not os.path.isfile(path) or not check_if_exists:
+        write_codes(get_codes(), location)
+        reload_on_start = True
 
-with open('./data/industry-codes.json') as f:
-    data = json.load(f)
+    with open('./data/industry-codes.json') as f:
+        data = json.load(f)
+
+reload_data()
 
 class CODE:
     exposed = True
@@ -33,6 +42,11 @@ class SIC(CODE):
     code = data['sic_codes']
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--reload', action='store_true')
+
+    if parser.parse_args().reload and not reload_on_start:
+        reload_data(check_if_exists=False)
 
     cherrypy.tree.mount(
         NAICS(), '/naics',
